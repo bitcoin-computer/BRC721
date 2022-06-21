@@ -1,9 +1,12 @@
 export class NFT {
   coins: number
-  _owners: string[]
   name: string
   symbol: string
   supply: number
+  _owners: string[]
+  readonly _id: string
+  readonly _rev: string
+  readonly _root: string
 
   constructor(to: string, name: string, symbol: string, supply: number) {
     this._owners = [to]
