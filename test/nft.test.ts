@@ -19,7 +19,7 @@ describe('TokenBad', () => {
       expect(NFT).toBeDefined()
       expect(typeof NFT).toBe('function')
 
-      const token = new NFT('to', 'name', 'symbol', 10)
+      const token = new NFT('to', 'name', 'symbol')
       expect(token).toBeDefined()
     })
 
@@ -27,11 +27,10 @@ describe('TokenBad', () => {
       const computer = new Computer(opts)
       const publicKeyString = computer.db.wallet.getPublicKey().toString()
 
-      const nft = await computer.new(NFT, [publicKeyString, 'name', 'symbol', 10])
+      const nft = await computer.new(NFT, [publicKeyString, 'name', 'symbol'])
       expect(nft).toEqual({
         name: 'name',
         symbol: 'symbol',
-        supply: 10,
         _owners: [publicKeyString],
         _id: expect.any(String),
         _rev: expect.any(String),
@@ -48,11 +47,10 @@ describe('TokenBad', () => {
       const computer2 = new Computer(randomOpts)
       const publicKeyString2 = computer2.db.wallet.getPublicKey().toString()
 
-      const nft = await computer.new(NFT, [publicKeyString, 'name', 'symbol', 10])
+      const nft = await computer.new(NFT, [publicKeyString, 'name', 'symbol'])
       expect(nft).toEqual({
         name: 'name',
         symbol: 'symbol',
-        supply: 10,
         _owners: [publicKeyString],
         _id: expect.any(String),
         _rev: expect.any(String),
@@ -64,7 +62,6 @@ describe('TokenBad', () => {
       expect(nft).toEqual({
         name: 'name',
         symbol: 'symbol',
-        supply: 10,
         _owners: [publicKeyString2],
         _id: expect.any(String),
         _rev: expect.any(String),

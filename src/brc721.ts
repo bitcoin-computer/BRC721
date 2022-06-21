@@ -2,20 +2,21 @@ import { NFT } from './nft'
 
 export class BRC721 {
   computer: any
-  supply: number
   masterNFT: NFT
 
-  constructor(computer: any, supply: number) {
+  constructor(computer: any) {
     this.computer = computer
-    this.supply = supply
   }
 
-  async mint(to: string, name: string, symbol: symbol, supply: number) {
-    if (!this.masterNFT) {
-      this.masterNFT = this.computer.new(NFT, [to, name, symbol, supply])
+  async mint(to: string, name?: string, symbol?: string) {
+    if (!this.masterNFT && name && symbol) {
+      this.masterNFT = this.computer.new(NFT, [to, name, symbol])
       return this.masterNFT
     }
-    return this.masterNFT.mint(to, name, symbol)
+    if (this.masterNFT.name !== name || this.masterNFT.symbol !== symbol) {
+      throw new Error('Name or symbol mismatch when minting token.')
+    }
+    return this.masterNFT.mint(to)
   }
 
   async balanceOf(publicKey: string): Promise<number> {
