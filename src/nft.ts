@@ -1,5 +1,4 @@
 export class NFT {
-  coins: number
   name: string
   symbol: string
   supply: number
@@ -15,7 +14,7 @@ export class NFT {
     this.supply = supply
   }
 
-  send(to: string) {
+  transfer(to: string) {
     this._owners = [to]
   }
 

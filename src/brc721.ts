@@ -21,7 +21,7 @@ export class BRC721 {
   async balanceOf(publicKey: string): Promise<number> {
     const revs = await this.computer.getRevs({ publicKey, contractName: NFT })
     const objects: NFT[] = await Promise.all(revs.map((rev) => this.computer.sync(rev)))
-    objects.flatMap(object => object._root === this.masterNFT._root ? [object] : [])
+    objects.flatMap((object) => (object._root === this.masterNFT._root ? [object] : []))
     return objects.length
   }
 
