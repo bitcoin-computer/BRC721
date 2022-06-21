@@ -14,14 +14,13 @@ export class BRC721 {
     if (!this.masterNFT) {
       this.masterNFT = this.computer.new(NFT, [to, name, symbol, supply])
       return this.masterNFT
-    } else {
-      return this.masterNFT.mint(to, name, symbol)
     }
+    return this.masterNFT.mint(to, name, symbol)
   }
 
   async balanceOf(publicKey: string): Promise<number> {
     const revs = await this.computer.getRevs({ publicKey, contractName: NFT })
-    const objects = await Promise.all(revs.map(rev => this.computer.sync(rev)))
+    const objects = await Promise.all(revs.map((rev) => this.computer.sync(rev)))
     // todo: filter to keep only the objects that have object._root === this.masterNFT._root (just like in the getBags function)
     return objects.length
   }
