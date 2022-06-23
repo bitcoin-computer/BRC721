@@ -1,6 +1,13 @@
 import { NFT } from './nft'
 
-export class BRC721 {
+interface IBRC721 {
+  mint(to: string, name?: string, symbol?: string): Promise<NFT>
+  balanceOf(publicKey: string): Promise<number>
+  ownerOf(tokenId: string): Promise<string[]>
+  transfer(to: string, tokenId: string)
+}
+
+export class BRC721 implements IBRC721 {
   computer: any
   masterNFT: NFT
 
@@ -8,7 +15,7 @@ export class BRC721 {
     this.computer = computer
   }
 
-  async mint(to: string, name?: string, symbol?: string) {
+  async mint(to: string, name?: string, symbol?: string): Promise<NFT> {
     if (!this.masterNFT && name && symbol) {
       this.masterNFT = this.computer.new(NFT, [to, name, symbol])
       return this.masterNFT
