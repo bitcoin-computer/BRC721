@@ -20,7 +20,7 @@ export class BRC721 {
   }
 
   async balanceOf(publicKey: string): Promise<number> {
-    const revs = await this.computer.getRevs({ publicKey, contractName: NFT })
+    const revs = await this.computer.queryRevs({ publicKey, contract: NFT })
     const objects: NFT[] = await Promise.all(revs.map((rev) => this.computer.sync(rev)))
     objects.flatMap((object) => (object._root === this.masterNFT._root ? [object] : []))
     return objects.length
@@ -32,9 +32,9 @@ export class BRC721 {
     return obj._owners
   }
 
-  async transferFrom(to: string, tokenId: string) {
-    const rev = await this.computer.idToRev(tokenId)
+  async transfer(to: string, tokenId: string) {
+    const [rev] = await this.computer.getLatestRevs([tokenId])
     const obj = await this.computer.sync(rev)
-    await obj.send(to)
+    await obj.transfer(to)
   }
 }
